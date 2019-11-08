@@ -27,6 +27,7 @@
     credential: "{{ jt.credential | default(omit) }}"
     job_type: "{{ jt.job_type | default(omit) }}"
     vault_credential: "{{ jt.vault_credential | default(omit) }}"
+    extra_vars_path: "{{ jt.extra_vars_path | default(omit }}"
   loop_control:
     label: "{{ jt.name }}"
     loop_var: jt
@@ -56,7 +57,20 @@
       project: "{{ proj_name }}"
       playbook: "{{ osp_smoke_playbook }}"
       credential: "{{ssh_cred_name}}"
-
+    - name: "{{job_template_aws_provision}}"
+      job_type: run
+      inventory: "{{ static_inventory_name }}"
+      project: "{{ proj_name }}"
+      playbook: "{{aws_provision_playbook}}"
+      credential: "{{ssh_cred_name}}"
+      extra_vars_path: "/tmp/aws_jq_vars.yml"
+    - name: "{{job_template_aws_ssh_keys}}"
+      job_type: run
+      inventory: "{{ static_inventory_name }}"
+      project: "{{ proj_name }}"
+      playbook: "{{ aws_ssh_playbook }}"
+      credential: "{{opentlc_cred_name}}"
+      extra_vars_path: "/tmp/tower_info.yml"
 
 - name: Associate IG to OSP instances job template 
   command: |
@@ -73,14 +87,6 @@
 - name: Associate IG to Smoke test job template 
   command: |
     tower-cli job_template associate_ig --job-template "{{job_template_smoke_osp}}" --instance-group "{{instance_group_name}}"
-
-- name: Job template for Provisioning AWS env
-  command: |
-    tower-cli job_template create --name "{{job_template_aws_provision}}" --job-type run --inventory "{{static_inventory_name}}" --project "{{proj_name}}" --playbook "{{aws_provision_playbook}}" --credential "{{ssh_cred_name}}" --extra-vars @/tmp/aws_jq_vars.yml
-
-- name: Job template for injecting AWS SSH keys
-  command: |
-    tower-cli job_template create --name "{{job_template_aws_ssh_keys}}" --job-type run --inventory "{{ec2_dynamic_inventory}}" --project "{{proj_name}}" --playbook "{{aws_ssh_playbook}}" --credential "{{opentlc_cred_name}}" --extra-vars @/tmp/tower_info.yml
 
 - name: Job template for checking AWS instances status
   command: |
