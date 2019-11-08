@@ -55,6 +55,7 @@ tower_job_templates:
     project: "{{ proj_name }}"
     playbook: "{{ osp_instances_playbook }}"
     credential: "{{ ssh_cred_name }}"
+    instance_group: "{{instance_group_name}}"
   - name: "{{ job_template_name_3tier_app }}"
     job_type: run
     inventory: "{{ static_inventory_name }}"
@@ -62,18 +63,21 @@ tower_job_templates:
     playbook: "{{ app_deploy_playbook }}"
     credential: "{{ ssh_cred_name }}"
     vault_credential: yum-repo-cred
+    instance_group: "{{instance_group_name}}"
   - name: "{{ job_template_name_osp_instances_delete }}"
     job_type: run
     inventory: "{{ static_inventory_name }}"
     project: "{{ proj_name }}"
     playbook: "{{ osp_instances_delete_playbook }}"
     credential: "{{ ssh_cred_name }}"
+    instance_group: "{{ instance_group_name }}"
   - name: "{{job_template_smoke_osp}}"
     job_type: run
     inventory: "{{ static_inventory_name }}"
     project: "{{ proj_name }}"
     playbook: "{{ osp_smoke_playbook }}"
     credential: "{{ssh_cred_name}}"
+    instance_group: "{{ instance_group_name }}"
   - name: "{{job_template_aws_provision}}"
     job_type: run
     inventory: "{{ static_inventory_name }}"

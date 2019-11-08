@@ -29,18 +29,13 @@
     loop_var: jt
   loop: "{{ tower_job_templates }}"
 
-- name: Associate IG to OSP instances job template 
+- name: Associate IG to job template 
   command: |
-    tower-cli job_template associate_ig --job-template "{{ job_template_name_osp_instances }}" --instance-group "{{instance_group_name}}"
-
-- name: Associate IG to 3tier job template  
-  command: |
-    tower-cli job_template associate_ig --job-template "{{job_template_name_3tier_app}}" --instance-group "{{instance_group_name}}"
-
-- name: Associate IG to OSP Delete instances job template 
-  command: |
-    tower-cli job_template associate_ig --job-template "{{job_template_name_osp_instances_delete}}" --instance-group "{{instance_group_name}}"
-
-- name: Associate IG to Smoke test job template 
-  command: |
-    tower-cli job_template associate_ig --job-template "{{job_template_smoke_osp}}" --instance-group "{{instance_group_name}}"
+    tower-cli job_template associate_ig \
+      --job-template "{{ jt.name }}" \
+      --instance-group "{{ jt.instance_group }}"
+  loop_control:
+    label: jt
+    loop_var: "{{ jt.name }}:{{ jt.instance_group }}"
+  loop: "{{ tower_job_templates | json_query(?instance_group) }}"
+  # Filter to instance_group is defined
