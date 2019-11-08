@@ -42,6 +42,12 @@ aws_cred_name: "Creds for AWS instances"
 job_template_smoke_aws: "Smoke test Prod env"
 aws_smoke_app_playbook: site-smoketest-aws.yml
 
+tower_credentials:
+  - name: yum-repo-cred
+    organization: "{{ org_name }}"
+    kind: vault
+    vault_password: ansible
+
 tower_job_templates:
   - name: "{{job_template_name_osp_instances}}"
     job_type: run

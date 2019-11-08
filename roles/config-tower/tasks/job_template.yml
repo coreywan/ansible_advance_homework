@@ -10,11 +10,7 @@
   loop_control:
     label: "{{ cred.name }}"
     loop_var: cred
-  loop:
-    - name: yum-repo-cred
-      organization: "{{ org_name }}"
-      kind: vault
-      vault_password: ansible
+  loop: "{{ tower_credentials }}"
 
 - name: Setup Job Templates
   tower_job_template:
