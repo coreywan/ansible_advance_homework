@@ -13,7 +13,7 @@
   loop:
     - name: yum-repo-cred
       organization: "{{ org_name }}"
-      kind: Vault
+      kind: vault
       vault_password: ansible
 
 - name: Setup Job Templates
