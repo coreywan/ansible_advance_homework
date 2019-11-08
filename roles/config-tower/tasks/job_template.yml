@@ -1,6 +1,23 @@
-- name: Job template for OSP Instances
-  command: |
-    tower-cli job_template create --name "{{job_template_name_osp_instances}}" --job-type run --inventory "{{static_inventory_name}}" --project "{{proj_name}}" --playbook "{{osp_instances_playbook}}" --credential "{{ssh_cred_name}}"
+- name: Setup Job Templates
+  tower_job_template:
+    tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
+    tower_username: "{{ user_name }}"
+    tower_password: "{{ password }}"
+    name: "{{ jt.name }}"
+    project: "{{ jt.project }}"
+    playbook: "{{ jt.playbook }}"
+    credential: "{{ jt.credential | default(omit) }}"
+    job_type: "{{ jt.job_type | default(omit) }}"
+  loop_control:
+    label: "{{ jt.name }}"
+    loop_var: jt
+  loop:
+    - name: "{{job_template_name_osp_instances}}"
+      job_type: run
+      inventory: "{{ static_inventory_name}}"
+      project: "{{proj_name}}"
+      playbook: "{{ osp_instances_playbook }}"
+      credential: "{{ ssh_cred_name }}"
 
 - name: Associate IG to OSP instances job template 
   command: |
