@@ -32,7 +32,6 @@
 
 - name: Create Group in static inventory 
   tower_group:
-    organization: "{{ org_name }}"
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
     tower_password: "{{ password }}"
@@ -41,7 +40,6 @@
 
 - name: Add workstation host in tower_inventory 
   tower_host:
-    organization: "{{ org_name }}"
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
     tower_password: "{{ password }}"
