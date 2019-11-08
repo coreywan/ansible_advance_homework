@@ -31,64 +31,7 @@
   loop_control:
     label: "{{ jt.name }}"
     loop_var: jt
-  loop:
-    - name: "{{job_template_name_osp_instances}}"
-      job_type: run
-      inventory: "{{ static_inventory_name}}"
-      project: "{{ proj_name }}"
-      playbook: "{{ osp_instances_playbook }}"
-      credential: "{{ ssh_cred_name }}"
-    - name: "{{ job_template_name_3tier_app }}"
-      job_type: run
-      inventory: "{{ static_inventory_name }}"
-      project: "{{ proj_name }}"
-      playbook: "{{ app_deploy_playbook }}"
-      credential: "{{ ssh_cred_name }}"
-      vault_credential: yum-repo-cred
-    - name: "{{ job_template_name_osp_instances_delete }}"
-      job_type: run
-      inventory: "{{ static_inventory_name }}"
-      project: "{{ proj_name }}"
-      playbook: "{{ osp_instances_delete_playbook }}"
-      credential: "{{ ssh_cred_name }}"
-    - name: "{{job_template_smoke_osp}}"
-      job_type: run
-      inventory: "{{ static_inventory_name }}"
-      project: "{{ proj_name }}"
-      playbook: "{{ osp_smoke_playbook }}"
-      credential: "{{ssh_cred_name}}"
-    - name: "{{job_template_aws_provision}}"
-      job_type: run
-      inventory: "{{ static_inventory_name }}"
-      project: "{{ proj_name }}"
-      playbook: "{{aws_provision_playbook}}"
-      credential: "{{ssh_cred_name}}"
-      extra_vars_path: "/tmp/aws_jq_vars.yml"
-    - name: "{{job_template_aws_ssh_keys}}"
-      job_type: run
-      inventory: "{{ static_inventory_name }}"
-      project: "{{ proj_name }}"
-      playbook: "{{ aws_ssh_playbook }}"
-      credential: "{{opentlc_cred_name}}"
-      extra_vars_path: "/tmp/tower_info.yml"
-    - name: "{{ job_template_aws_status_check }}"
-      job_type: run
-      inventory: "{{ ec2_dynamic_inventory }}"
-      project: "{{ proj_name }}"
-      playbook: "{{aws_status_playbook}}"
-      credential: "{{ opentlc_cred_name }}"
-    - name: "{{ job_template_name_3tier_app_aws }}"
-      job_type: run
-      inventory: "{{ ec2_dynamic_inventory }}"
-      project: "{{ proj_name }}"
-      playbook: "{{app_deploy_playbook}}"
-      vault_credential: yum-repo-cred
-    - name: "{{job_template_smoke_aws}}"
-      job_type: run
-      inventory: "{{ ec2_dynamic_inventory }}"
-      project: "{{ proj_name }}"
-      playbook: "{{ aws_smoke_app_playbook }}"
-      vault_credential: yum-repo-cred
+  loop: "{{ tower_job_templates }}"
 
 - name: Associate IG to OSP instances job template 
   command: |
