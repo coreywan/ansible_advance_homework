@@ -1,3 +1,21 @@
+- name: Setup Credentials
+  tower_credential:
+    tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
+    tower_username: "{{ user_name }}"
+    tower_password: "{{ password }}"
+    name: "{{ cred.name }}"
+    organization: "{{ cred.organization }}"
+    kind: "{{ cred.kind }}"
+    vault_password: "{{ cred.vault_password | default(omit) }}"
+  loop_control:
+    label: "{{ cred.name }}"
+    loop_var: cred
+  loop:
+    - name: yum-repo-cred
+      organization: "{{ org_name }}"
+      kind: Vault
+      vault_password: ansible
+
 - name: Setup Job Templates
   tower_job_template:
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
@@ -24,9 +42,6 @@
     tower-cli job_template associate_ig --job-template "{{job_template_name_osp_instances}}" --instance-group "{{instance_group_name}}"
 
 
-- name: Create vault credential
-  command: |
-    tower-cli credential create --name="yum-repo-cred" --organization "{{org_name}}" --inputs='{"vault_password":"ansible"}'  --credential-type="Vault"
 
 - name: Job template for 3tier app deploy on QA Env
   command: |
