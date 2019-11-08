@@ -7,13 +7,13 @@
     scm_type: git
     organization: "{{ org_name }}"
 
-- name: Machine Credentail to connect to workstation using openstack.pub
+- name: Machine Credential to connect to workstation using openstack.pub
   tower_credential:
     name: Connect_to_workstation
     organization: Default
     state: present
     kind: ssh
-    tower_host: tower1.{{tower_GUID}}.example.opentlc.com
+    tower_host: "tower1.{{tower_GUID}}.example.opentlc.com"
     tower_username: admin
     tower_password: r3dh4t1!
     ssh_key_data: "/root/.ssh/openstack.pem"
