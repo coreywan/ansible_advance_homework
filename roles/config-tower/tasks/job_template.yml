@@ -32,8 +32,8 @@
 - name: Associate IG to job template 
   command: |
     tower-cli job_template associate_ig \
-      --job-template "{{ jt.name }}" \
-      --instance-group "{{ jt.instance_group }}"
+      --job-template '{{ jt.name }}' \
+      --instance-group '{{ jt.instance_group }}'
   loop_control:
     label: "{{ jt.name }}:{{ jt.instance_group }}"
     loop_var: jt
