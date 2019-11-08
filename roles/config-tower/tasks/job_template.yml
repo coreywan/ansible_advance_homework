@@ -37,5 +37,5 @@
   loop_control:
     label: jt
     loop_var: "{{ jt.name }}:{{ jt.instance_group }}"
-  loop: "{{ tower_job_templates | json_query('?instance_group') }}"
+  loop: "{{ tower_job_templates | json_query('[?instance_group]') }}"
   # Filter to instance_group is defined
