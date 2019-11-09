@@ -42,6 +42,24 @@ aws_cred_name: "Creds for AWS instances"
 job_template_smoke_aws: "Smoke test Prod env"
 aws_smoke_app_playbook: site-smoketest-aws.yml
 
+tower_credential_types:
+  - name: OpenTLC
+    kind: cloud
+    description: OpenTLC Credentials
+    inputs:
+      fields:
+        - type: string
+          id: username
+          label: Username
+        - type: string
+          id: password
+          label: Password
+          secret: true
+    injectors:
+      extra_vars:
+        param_password: !unsafe "{{ password }}"  # This forces the jinja in the string to not be enumerated.
+        param_user: !unsafe "{{ username }}"  # This forces the jinja in the string to not be enumerated.
+
 tower_credentials:
   - name: yum-repo-cred
     organization: "{{ org_name }}"
