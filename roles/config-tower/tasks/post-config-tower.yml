@@ -1,4 +1,5 @@
-- name: Create Homework Assignment project 
+---
+- name: Create Homework Assignment project
   tower_project:
     name: "{{ proj_name }}"
     scm_branch: "{{ scm_branch }}"
@@ -30,7 +31,7 @@
     tower_password: "{{ password }}"
     name: "{{ static_inventory_name }}"
 
-- name: Create Group in static inventory 
+- name: Create Group in static inventory
   tower_group:
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
@@ -38,7 +39,7 @@
     inventory: "{{ static_inventory_name }}"
     name: "{{ group_name }}"
 
-- name: Add workstation host in tower_inventory 
+- name: Add workstation host in tower_inventory
   tower_host:
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
@@ -46,8 +47,8 @@
     inventory: "{{ static_inventory_name }}"
     name: "{{ host_name }}"
 
-- name: Associate workstation host to group 
-  command: | 
+- name: Associate workstation host to group
+  command: |
     tower-cli host associate --host "{{ host_name }}" --group "{{ group_name }}"
 
 - name: Tower Creds key file
@@ -59,7 +60,7 @@
     tower_host: tower1.{{tower_GUID}}.example.opentlc.com
     tower_username: admin
     tower_password: r3dh4t1!
-    tower_verify_ssl: no
+    tower_verify_ssl: false
     ssh_key_data: "{{ path_to_opentlc_key }}"
     username: "{{ opentlc_login }}"
 

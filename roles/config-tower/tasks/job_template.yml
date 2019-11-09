@@ -1,3 +1,4 @@
+---
 - name: Setup Credentials
   tower_credential:
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
@@ -29,7 +30,7 @@
     loop_var: jt
   loop: "{{ tower_job_templates }}"
 
-- name: Associate IG to job template 
+- name: Associate IG to job template
   command: |
     tower-cli job_template associate_ig \
       --job-template '{{ jt.name }}' \
