@@ -1,0 +1,12 @@
+[jumpbox]
+workstation 
+
+[application]
+app1
+app2
+
+[database]
+db
+
+[frontend]
+frontend1

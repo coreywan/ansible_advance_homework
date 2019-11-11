@@ -1,0 +1,9 @@
+---
+oc_meta_deployment_name: QA
+oc_flavor: m2.small
+oc_networks: 20.20.20.0/24
+oc_keypair: ansible_ssh
+oc_image: rhel-guest
+oc_key_name: ansible_ssh
+oc_name: "{{ inventory_hostname }}"
+oc_deploy: true
