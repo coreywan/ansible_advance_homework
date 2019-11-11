@@ -1,4 +1,13 @@
 ---
 # tasks file for roles/osp-instance-delete
 - name: Fetch Instance Info
+  debug:
+
 - name: Delete instances
+  os_server:
+    name: "{{ oc_name }}"
+    image: "{{ oc_image }}"
+    delete_fip: true
+    state: absent
+    wait: true
+  delegate_to: localhost
