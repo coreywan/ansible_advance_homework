@@ -1,3 +1,4 @@
+---
 - name: yum clean
   shell: yum clean all
 - name: install pip
@@ -11,7 +12,7 @@
     extra_args: -U
 - name: Create clouds.yaml file
   blockinfile:
-    create: yes
+    create: true
     path: /etc/openstack/clouds.yaml
     block: |2
       clouds:

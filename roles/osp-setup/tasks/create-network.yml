@@ -1,3 +1,4 @@
+---
 - name: Configuration of Public and Private Networks
   os_network:
     cloud: "{{ item.value.cloud_name }}"

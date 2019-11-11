@@ -1,3 +1,4 @@
+---
 - hosts: frontends
   gather_facts: false
   tasks:

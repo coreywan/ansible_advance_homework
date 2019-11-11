@@ -18,7 +18,7 @@
 
 - name: setup app tier
   hosts: apps
-  become: yes
+  become: true
   gather_facts: false
   roles:
     - {name: base-config, tags: base-config}

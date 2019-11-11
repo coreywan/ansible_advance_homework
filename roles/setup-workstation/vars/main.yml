@@ -21,7 +21,7 @@ osp_networks:
     state: present
     external: false
 
-  # Public Facing Router connecting the two networks
+# Public Facing Router connecting the two networks
 osp_router:
   router:
     cloud_name: ospcloud
