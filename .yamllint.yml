@@ -5,5 +5,5 @@ rules:
     max: 150
     level: warning
     ignore: |
-      tmp.yml
       site-install-isolated-node.yml
+      ./grading-script.yml
