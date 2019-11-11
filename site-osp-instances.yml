@@ -3,5 +3,5 @@
   hosts: all
   gather_facts: false
   roles:
-    - name: oc_server
+    - name: osp-servers
       when: oc_deploy | default(false) == True
