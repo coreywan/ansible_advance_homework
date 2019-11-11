@@ -14,7 +14,7 @@
         mode: 0755
 
     - name: get script jq
-      get_url: 
+      get_url:
         url: "{{ param_repo_base }}/scripts/jq-linux64"
         dest: /root/bin/jq
         mode: 0755
@@ -42,9 +42,12 @@
     # Using this script will always deploy environments in the us-east-1 region.
     # TODO: this shell task is not working yet!
     - name: order service on opentlc
-      shell: source /root/credential.rc; ./order_svc.sh -y -c 'OPENTLC Automation' -i 'Ansible Advanced - Three Tier App' -t 1 -d 'dialog_expiration=7;region=na;nodes=1;dialog_runtime=8'
+      shell: |
+        source /root/credential.rc;
+        ./order_svc.sh -y -c 'OPENTLC Automation' -i 'Ansible Advanced - Three Tier App' \
+          -t 1 -d 'dialog_expiration=7;region=na;nodes=1;dialog_runtime=8'
       args:
         chdir: /root
     - name: Wait for mail
       pause:
-        minutes: 10 
+        minutes: 10
