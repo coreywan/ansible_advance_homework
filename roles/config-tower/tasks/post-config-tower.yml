@@ -26,6 +26,10 @@
         validate_certs: false
       register: tower_project_update
 
+    - name: Pause for a few
+      pause:
+        seconds: 5
+
     - name: Wait for Update to Complete
       tower_job_wait:
         job_id: "{{ tower_project_update.json.id }}"
