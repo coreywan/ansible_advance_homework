@@ -29,6 +29,14 @@
   loop: |
     {{ tower_credentials | json_query("[?kind!='cloud']") }}
 
+- name: Setup Credentials - Cloud Creds
+  include_tasks: _cloud_credentials.yml
+  loop: |
+    {{ tower_credentials | json_query("[?credential_type]") }}
+  loop_control:
+    label: "{{ cred.name }}"
+    loop_var: cred
+
 - name: Setup Job Templates
   tower_job_template:
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
