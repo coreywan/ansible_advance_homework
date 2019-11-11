@@ -93,7 +93,7 @@ tower_job_templates:
     instance_group: "{{instance_group_name}}"
   - name: "{{ job_template_name_3tier_app }}"
     job_type: run
-    inventory: "{{ static_inventory_name }}"
+    inventory: qa
     project: "{{ proj_name }}"
     playbook: "{{ app_deploy_playbook }}"
     credential: "{{ ssh_cred_name }}"
