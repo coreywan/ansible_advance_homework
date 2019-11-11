@@ -26,17 +26,19 @@
         validate_certs: false
       register: tower_project_update
 
-    - name: Pause for a few
-      pause:
-        seconds: 5
-
     - name: Wait for Update to Complete
-      tower_job_wait:
-        job_id: "{{ tower_project_update.json.id }}"
-        timeout: 60
-        tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
-        tower_username: "{{ user_name }}"
-        tower_password: "{{ password }}"
+      uri:
+        url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/project_updates/{{ tower_project_update.json.id }}/"
+        method: GET
+        user: "{{ user_name }}"
+        password: "{{ password }}"
+        status_code: [200]
+        force_basic_auth: true
+        validate_certs: false
+      register: tower_project_update_status
+      until: tower_project_update_status.json.status == 'successful'
+      retries: 12
+      delay: 5
 
 - name: Machine Credential to connect to workstation using openstack.pub
   tower_credential:
