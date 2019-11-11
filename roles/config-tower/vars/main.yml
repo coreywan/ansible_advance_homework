@@ -42,6 +42,15 @@ aws_cred_name: "Creds for AWS instances"
 job_template_smoke_aws: "Smoke test Prod env"
 aws_smoke_app_playbook: site-smoketest-aws.yml
 
+tower_inventories:
+  - name: "{{ static_inventory_name }}"
+  - name: qa
+    sources:
+      - name: qa_scm
+        source: scm
+        source_project: "{{ proj_name }}"
+        source_path: inventories/qa/hosts
+
 tower_credential_types:
   - name: OpenTLC
     kind: cloud

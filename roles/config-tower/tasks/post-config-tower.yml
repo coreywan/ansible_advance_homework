@@ -29,7 +29,38 @@
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
     tower_password: "{{ password }}"
-    name: "{{ static_inventory_name }}"
+    name: "{{ inv.name }}"
+    description: "{{ inv.description | default(omit) }}"
+  loop: "{{ tower_inventories }}"
+  loop_control:
+    loop_var: inv
+    label: "{{ inv.name }}"
+
+- name: Create Inventory Source
+  tower_inventory_source:
+    organization: "{{ org_name }}"
+    tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
+    tower_username: "{{ user_name }}"
+    tower_password: "{{ password }}"
+    name: "{{ inv_src.1.name }}"
+    inventory: "{{ inv_src.0.name }}"
+    description: "{{ inv_src.1.description | default(omit) }}"
+    credential:  "{{ inv_src.1.credential | default(omit) }}"
+    group_by:  "{{ inv_src.1.group_by | default(omit) }}"
+    overwrite: "{{ inv_src.1.overwrite | default(omit) }}"
+    overwrite_vars: "{{ inv_src.1.overwrite_vars | default(omit) }}"
+    source: "{{ inv_src.1.source }}"
+    source_path: "{{ inv_src.1.source_path | default(omit) }}"
+    source_project: "{{ inv_src.1.source_project | default(omit) }}"
+    source_regions: "{{ inv_src.1.source_regions | default(omit) }}"
+    source_script: "{{ inv_src.1.source_script | default(omit) }}"
+    source_vars: "{{ inv_src.1.source_vars | default(omit) }}"
+    update_on_launch: "{{ inv_src.1.update_on_launch | default(omit) }}"
+    update_on_project_update: "{{ inv_src.1.update_on_project_update | default(omit) }}"
+  loop: "{{ tower_inventories | subelements('sources', skip_missing=True) }}"
+  loop_control:
+    loop_var: inv_src
+    label: "{{ inv_src.0.name }}:{{ inv_src.1.name }}"
 
 - name: Create Group in static inventory
   tower_group:
