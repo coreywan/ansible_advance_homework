@@ -21,7 +21,7 @@
       curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
       cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
   register: instanceip
-  delegate_to: workstation
+  delegate_to: localhost
 
 - name: Add floating IP to Servers
   os_floating_ip:
@@ -33,7 +33,7 @@
     wait: true
     timeout: 180
   register: instancefloatingip
-  delegate_to: workstation
+  delegate_to: localhost
 
 - name: Wait for server to be available
   wait_for:
@@ -41,4 +41,4 @@
     port: 22
     search_regex: OpenSSH
     timeout: 600
-  delegate_to: workstation
+  delegate_to: localhost

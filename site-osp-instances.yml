@@ -1,5 +1,7 @@
 ---
-- hosts: workstation
-  become: true
+- name: Build Servers
+  hosts: all
+  gather_facts: false
   roles:
-    - osp-servers
+    - name: oc_server
+      when: oc_deploy | default(false) == True
