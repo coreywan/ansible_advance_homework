@@ -5,6 +5,6 @@
 
 
 - name: Add floating IP to Servers
-   
+
 
 - name: Wait for server to be available
