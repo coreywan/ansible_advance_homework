@@ -10,6 +10,28 @@
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
     tower_password: "{{ password }}"
+  register: tower_project_info
+
+- name: Update Tower Project
+  when: not tower_project_info.changed
+  block:
+    - name: Launch Update
+      uri:
+        url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/projects/{{ tower_project_info.id }}/update/"
+        method: POST
+        user: "{{ user_name }}"
+        password: "{{ password }}"
+        force_basic_auth: true
+        validate_certs: false
+      register: tower_project_update
+
+    - name: Wait for Update to Complete
+      tower_job_wait:
+        job_id: "{{ tower_project_update.json.id }}"
+        timeout: 60
+        tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
+        tower_username: "{{ user_name }}"
+        tower_password: "{{ password }}"
 
 - name: Machine Credential to connect to workstation using openstack.pub
   tower_credential:
