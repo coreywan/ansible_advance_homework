@@ -6,4 +6,3 @@
 - include_tasks: create-sg.yml
 - include_tasks: create-image.yml
 - include_tasks: create-network.yml
-

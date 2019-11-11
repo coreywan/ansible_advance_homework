@@ -38,7 +38,7 @@
     - { port: '80', ip_prefix: '0.0.0.0/0' }
     - { port: '443', ip_prefix: '0.0.0.0/0' }
     - { port: '22', ip_prefix: '0.0.0.0/0' }
-     
+
 - name: Create Security Group DB
   os_security_group:
     cloud: ospcloud
