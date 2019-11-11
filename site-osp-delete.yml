@@ -1,5 +1,7 @@
 ---
-- hosts: workstation
-  become: true
+- name: Destroy Servers
+  hosts: all
+  gather_facts: false
   roles:
-    - osp-instance-delete
+    - name: osp-instance-delete
+      when: oc_deploy | default(false) == True
