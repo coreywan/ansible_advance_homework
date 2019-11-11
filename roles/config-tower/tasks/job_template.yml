@@ -26,7 +26,8 @@
   loop_control:
     label: "{{ cred.name }}"
     loop_var: cred
-  loop: "{{ tower_credentials }}"
+  loop: |
+    {{ tower_credentials | json_query("[?kind!='cloud']") }}
 
 - name: Setup Job Templates
   tower_job_template:
