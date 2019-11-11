@@ -6,4 +6,5 @@ rules:
     level: warning
     ignore: |
       site-install-isolated-node.yml
-      ./grading-script.yml
+ignore: |
+  grading-script.yml
