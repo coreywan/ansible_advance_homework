@@ -38,7 +38,6 @@
 
 - name: Create Inventory Source
   tower_inventory_source:
-    organization: "{{ org_name }}"
     tower_host: "tower1.{{ tower_GUID }}.example.opentlc.com"
     tower_username: "{{ user_name }}"
     tower_password: "{{ password }}"
