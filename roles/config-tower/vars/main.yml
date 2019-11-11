@@ -57,14 +57,22 @@ tower_credential_types:
           secret: true
     injectors:
       extra_vars:
-        param_password: !unsafe "{{ password }}"  # This forces the jinja in the string to not be enumerated.
-        param_user: !unsafe "{{ username }}"  # This forces the jinja in the string to not be enumerated.
+        # This forces the jinja in the string to not be enumerated.
+        param_password: !unsafe "{{ password }}"
+        param_user: !unsafe "{{ username }}"
 
 tower_credentials:
   - name: yum-repo-cred
     organization: "{{ org_name }}"
     kind: vault
     vault_password: ansible
+  - name: opentlc
+    organization: "{{ org_name }}"
+    kind: cloud
+    credential_type: OpenTLC
+    inputs:
+      username: "{{ opentlc_login }}"
+      password: "{{ opentlc_password }}"
 
 tower_job_templates:
   - name: "{{job_template_name_osp_instances}}"
