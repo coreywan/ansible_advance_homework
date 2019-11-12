@@ -1,2 +1,5 @@
 ---
 # defaults file for base-config
+base_packages:
+  - vim
+  - jq

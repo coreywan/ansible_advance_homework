@@ -1,2 +1,5 @@
 ---
 # tasks file for base-config
+- name: Install Base Packages
+  package:
+    name: "{{ base_packages }}"
