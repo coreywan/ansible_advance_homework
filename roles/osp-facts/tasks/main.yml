@@ -7,8 +7,6 @@
     server: "{{ os_name }}"
   delegate_to: localhost
 
-- debug: var=openstack_servers
-
 - name: Set Ansible Hostname
   when: openstack_servers != []
   set_fact:
