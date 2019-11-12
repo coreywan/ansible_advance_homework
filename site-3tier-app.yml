@@ -1,34 +1,41 @@
 ---
-- hosts: workstation
-  gather_facts: true
-  roles:
-    - name: osp-facts
-
-# Setup front-end load balancer tier
-
-
-- name: setup load-balancer tier
-  hosts: frontends
-  become: true
-  roles:
-    - { name: base-config, tags: base-config }
-    - { name: lb-tier, tags: [lbs, haproxy] }
-
-# Setup application servers tier
-
-- name: setup app tier
-  hosts: apps
-  become: true
+- name: Get Server Facts
+  hosts: all
   gather_facts: false
   roles:
-    - {name: base-config, tags: base-config}
-    - {name: app-tier, tags: [apps, tomcat]}
+    - name: osp-facts
+      when: os_deploy | default(false) == True
 
-# Setup database tier
+# - hosts: workstation
+#   gather_facts: true
+#   roles:
+#     - name: osp-facts
 
-- name: setup database tier
-  become: true
-  hosts: appdbs
-  roles:
-    - {name: base-config, tags: base-config}
-    - {name: db-tier, tags: [dbs, postgres]}
+# # Setup front-end load balancer tier
+
+
+# - name: setup load-balancer tier
+#   hosts: frontends
+#   become: true
+#   roles:
+#     - { name: base-config, tags: base-config }
+#     - { name: lb-tier, tags: [lbs, haproxy] }
+
+# # Setup application servers tier
+
+# - name: setup app tier
+#   hosts: apps
+#   become: true
+#   gather_facts: false
+#   roles:
+#     - {name: base-config, tags: base-config}
+#     - {name: app-tier, tags: [apps, tomcat]}
+
+# # Setup database tier
+
+# - name: setup database tier
+#   become: true
+#   hosts: appdbs
+#   roles:
+#     - {name: base-config, tags: base-config}
+#     - {name: db-tier, tags: [dbs, postgres]}
