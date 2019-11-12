@@ -1,2 +1,4 @@
 ---
 # defaults file for lb-tier
+app_group: application
+app_port: 8080
