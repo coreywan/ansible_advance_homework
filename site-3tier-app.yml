@@ -14,28 +14,35 @@
 # # Setup front-end load balancer tier
 
 
-# - name: setup load-balancer tier
-#   hosts: frontends
-#   become: true
-#   roles:
-#     - { name: base-config, tags: base-config }
-#     - { name: lb-tier, tags: [lbs, haproxy] }
+- name: setup load-balancer tier
+  hosts: frontends
+  gather_facts: false
+  become: true
+  tasks:
+    - ping:
+  # roles:
+  #   - { name: base-config, tags: base-config }
+  #   - { name: lb-tier, tags: [lbs, haproxy] }
 
 # # Setup application servers tier
 
-# - name: setup app tier
-#   hosts: apps
-#   become: true
-#   gather_facts: false
-#   roles:
-#     - {name: base-config, tags: base-config}
-#     - {name: app-tier, tags: [apps, tomcat]}
+- name: setup app tier
+  hosts: apps
+  become: true
+  gather_facts: false
+  tasks:
+    - ping:
+  # roles:
+  #   - {name: base-config, tags: base-config}
+  #   - {name: app-tier, tags: [apps, tomcat]}
 
 # # Setup database tier
 
-# - name: setup database tier
-#   become: true
-#   hosts: appdbs
+- name: setup database tier
+  become: true
+  hosts: appdbs
+  tasks:
+    - ping:
 #   roles:
 #     - {name: base-config, tags: base-config}
 #     - {name: db-tier, tags: [dbs, postgres]}
