@@ -4,7 +4,7 @@
   os_server_facts:
     cloud: ospcloud
     region_name: RegionOne
-    server: "{{ os_server }}"
+    server: "{{ os_name }}"
   delegate_to: localhost
 
 - debug: var=openstack_servers
