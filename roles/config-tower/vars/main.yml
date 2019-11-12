@@ -50,6 +50,8 @@ tower_inventories:
         source: scm
         source_project: "{{ proj_name }}"
         source_path: inventories/qa/hosts
+        overwrite: true
+        overwrite_vars: true
 
 tower_credential_types:
   - name: OpenTLC
