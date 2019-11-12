@@ -3,23 +3,18 @@
 - name: Create new server instances and attaches them a network and passes metadata to the instance
   os_server:
     #cloud: ospcloud
-    name: "{{ oc_name }}"
-    image: "{{ oc_image }}"
+    name: "{{ os_name }}"
+    image: "{{ os_image }}"
     meta:
-      group: "{{ oc_meta_group }}"
-      deployment_name: "{{ oc_meta_deployment_name }}"
-    flavor: "{{ oc_flavor }}"
-    security_groups: "{{ oc_security_groups }}"
-    key_name: "{{ oc_key_name }}"
+      group: "{{ os_meta_group }}"
+      deployment_name: "{{ os_meta_deployment_name }}"
+    flavor: "{{ os_flavor }}"
+    security_groups: "{{ os_security_groups }}"
+    key_name: "{{ os_key_name }}"
     wait: true
     nics:
       - net-name: int_network
-    userdata: |
-      #!/bin/bash
-      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
-      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
-      curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
-      cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
+    userdata: "{{ os_userdata }}"
   register: instanceip
   delegate_to: localhost
 
@@ -28,7 +23,7 @@
     cloud: ospcloud
     state: present
     reuse: true
-    server: "{{ oc_name }}"
+    server: "{{ os_name }}"
     network: ext_network
     wait: true
     timeout: 180

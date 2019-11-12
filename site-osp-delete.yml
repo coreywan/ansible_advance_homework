@@ -4,4 +4,4 @@
   gather_facts: false
   roles:
     - name: osp-instance-delete
-      when: oc_deploy | default(false) == True
+      when: os_deploy | default(false) == True

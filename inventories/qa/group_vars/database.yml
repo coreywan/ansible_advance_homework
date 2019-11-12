@@ -1,3 +1,3 @@
 ---
-oc_meta_group: appdbs
-oc_security_groups: db
+os_meta_group: appdbs
+os_security_groups: db

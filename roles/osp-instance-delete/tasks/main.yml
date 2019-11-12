@@ -6,8 +6,8 @@
 - name: Delete instances
   os_server:
     cloud: ospcloud
-    name: "{{ oc_name }}"
-    image: "{{ oc_image }}"
+    name: "{{ os_name }}"
+    image: "{{ os_image }}"
     delete_fip: true
     state: absent
   delegate_to: localhost
