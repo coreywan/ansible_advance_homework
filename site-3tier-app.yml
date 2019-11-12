@@ -15,7 +15,7 @@
 
 
 - name: setup load-balancer tier
-  hosts: frontends
+  hosts: frontend
   gather_facts: false
   become: true
   tasks:
@@ -27,7 +27,7 @@
 # # Setup application servers tier
 
 - name: setup app tier
-  hosts: apps
+  hosts: application
   become: true
   gather_facts: false
   tasks:
@@ -40,7 +40,7 @@
 
 - name: setup database tier
   become: true
-  hosts: appdbs
+  hosts: database
   tasks:
     - ping:
 #   roles:
