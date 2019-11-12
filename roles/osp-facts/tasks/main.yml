@@ -8,3 +8,8 @@
   delegate_to: localhost
 
 - debug: var=openstack_servers
+
+- name: Set Ansible Hostname
+  when: openstack_servers != []
+  set_fact:
+    ansible_host: "{{ openstack_servers[0].accessIPv4 }}"
