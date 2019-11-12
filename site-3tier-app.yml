@@ -41,6 +41,7 @@
 - name: setup database tier
   become: true
   hosts: database
+  gather_facts: false
   tasks:
     - ping:
 #   roles:
