@@ -1,2 +1,19 @@
 ---
 # tasks file for db-tier
+- name: install postgres
+  yum:
+    name: postgresql-server
+    state: present
+  register: pg_install_task
+
+- name: Initialize DB  # Not a Handler because the next task fails if this command is not ran
+  shell: postgresql-setup initdb
+  args:
+    creates: "{{ pg_data_dir }}/PG_VERSION"
+  tags: [skip_ansible_lint]
+
+- name: enable apache at boot
+  service:
+    name: postgresql
+    enabled: true
+    state: started
