@@ -109,7 +109,7 @@
   loop: "{{ inventory_sources.results }}"
   loop_control:
     loop_var: inv_src
-    label: "{{ inv_src.inv_src.inventory_source }}:{{ inv_src.id }}"
+    label: "{{ inv_src.id }}"
 
 - name: Create Group in static inventory
   tower_group:
