@@ -16,10 +16,9 @@
         return_content: true
       register: webpage
 
-    - debug: var=webpage
-
     - name: Fail if 'Ansible has done its job' is not in the page content
-      fail:
-      when: "'Ansible has done its job' not in webpage.results[0].content"
+      assert:
+        that: "'Ansible has done its job' in webpage.content"
+        msg: "'Ansible has done its job' was not found in the frontend check"
       tags:
         - osp.smoke
