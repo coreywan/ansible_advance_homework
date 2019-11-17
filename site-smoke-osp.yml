@@ -6,7 +6,7 @@
     - name: osp-facts
       when: os_deploy | default(false) == True
 
-- hosts: workstation
+- hosts: localhost
   gather_facts: false
   tasks:
     - name: Curl website
