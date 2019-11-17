@@ -1,12 +1,12 @@
 [jumpbox]
 workstation 
 
-[application]
+[apps]
 app1
 app2
 
-[database]
+[appdbs]
 db
 
-[frontend]
+[frontends]
 frontend1

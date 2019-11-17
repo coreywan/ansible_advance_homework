@@ -7,21 +7,21 @@
       when: os_deploy | default(false) == True
 
 - name: Deploy base configuration
-  hosts: frontend:application:database
+  hosts: frontends:apps:appdbs
   gather_facts: false
   become: true
   roles:
     - { name: base-config, tags: base-config }
 
 - name: setup load-balancer tier
-  hosts: frontend
+  hosts: frontends
   gather_facts: false
   become: true
   roles:
     - { name: lb-tier, tags: [lbs, haproxy] }
 
 - name: setup app tier
-  hosts: application
+  hosts: apps
   become: true
   gather_facts: false
   roles:
@@ -29,7 +29,7 @@
 
 - name: setup database tier
   become: true
-  hosts: database
+  hosts: appdbs
   gather_facts: false
   roles:
     - {name: db-tier, tags: [dbs, postgres]}
