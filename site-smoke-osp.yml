@@ -1,15 +1,21 @@
 ---
+- name: Get Server Facts
+  hosts: frontend1
+  gather_facts: false
+  roles:
+    - name: osp-facts
+      when: os_deploy | default(false) == True
+
 - hosts: workstation
   gather_facts: false
   tasks:
-    - name: OpenStack servers
-      os_server_facts:
-      cloud: ospcloud
-      server: 'frontend'
-      register: openstack_info
-      tags:
-        - osp.smoke
     - name: Curl website
+      uri:
+        url: "http://{{ hostvars['frontend1']['ansible_host'] }}"
+        method: GET
+      register: webpage
+
+    - debug: var=webpage
 
     - name: Fail if 'Ansible has done its job' is not in the page content
       fail:
