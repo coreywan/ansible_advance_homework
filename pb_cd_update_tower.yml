@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    tower_GUID: "{{ lookup('file','_GUID_TOWER') }}"
+  tasks:
+    - include_role:
+        name: config-tower
+        tasks_from: update_project
