@@ -1,0 +1,87 @@
+---
+- name: Setup Jumpbox in Inventory
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Add Homework/Tower Host
+      add_host:
+        name: "bastion.{{ lookup('file','_GUID_TOWER') }}.example.opentlc.com"
+        groups: bastion_tower
+      changed_when: false
+  
+    - name: Add OSP Host
+      add_host:
+        name: "workstation-{{ lookup('file','_GUID_OSP') }}.rhpds.opentlc.com"
+        groups: bastion_osp
+      changed_when: false
+
+- name: Configure HW Bastion Host
+  hosts: bastion_tower
+  gather_facts: false
+  become: true
+  vars:
+    ansible_remote_tmp: /tmp  # Needed because home for the user is by default '/'
+    ansible_user: "{{ lookup('file','_OPENTLC_USER') }}"
+  tasks:
+    - name: Setup BashRC Exports
+      lineinfile:
+        path: /root/.bashrc
+        regex: "^export {{ item.key }}"
+        line: "export {{ item.key }}={{ item.value }}"
+      loop_control:
+        label: "{{ item.key }}"
+      loop:
+        - key: TOWER_GUID
+          value: "{{ lookup('file','_GUID_TOWER') }}"
+        - key: OSP_GUID
+          value: "{{ lookup('file','_GUID_OSP') }}"
+        - key: OPENTLC_LOGIN
+          value: "{{ lookup('file','_OPENTLC_USER') }}"
+        - key: OPENTLC_PASSWORD
+          value: "{{ lookup('file','_OPENTLC_PASSWORD') }}"
+        - key: GITHUB_REPO
+          value: https://github.com/coreywan/ansible_advance_homework.git
+        - key: JQ_REPO_BASE
+          value: http://www.opentlc.com/download/ansible_bootcamp
+        - key: REGION
+          value: us-east-1
+        - key: RH_MAIL_ID
+          value: corey.wanless@wwt.com
+
+    - name: Install Ansible
+      package:
+        name: ansible
+        state: present
+
+    - name: Install Screen
+      package:
+        name: screen
+        state: present
+
+    - name: Generate SSH Key
+      openssh_keypair:
+        path: "/root/.ssh/mykey_id_rsa"
+        mode: '0400'
+
+    - name: Fetch File to place it on 
+      fetch:
+        src: "/root/.ssh/mykey_id_rsa.pub"
+        dest: "{{ playbook_dir }}/id_rsa.pub"
+        flat: true
+
+    - name: Clone Forked Repo
+      git:
+        dest: /root/ansible_advance_homework
+        repo: https://github.com/coreywan/ansible_advance_homework.git
+
+- name: Configure OSP Bastion Host
+  hosts: bastion_osp
+  gather_facts: false
+  vars:
+    ansible_user: "{{ lookup('file','_OPENTLC_USER') }}"
+  tasks:
+    - name: Copy public key to OSP Bastion Host
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', (playbook_dir + '/id_rsa.pub')) }}"
