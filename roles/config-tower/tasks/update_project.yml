@@ -1,0 +1,36 @@
+---
+- name: Get Project ID Info
+  uri: 
+    url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/projects?name={{ proj_name }}"
+    method: GET
+    user: "{{ user_name }}"
+    password: "{{ password }}"
+    status_code: [200]
+    force_basic_auth: true
+    validate_certs: false
+  register: tower_project_info
+
+- name: Launch Update
+  uri:
+    url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/projects/{{ tower_project_info.json.results[0].id }}/update/"
+    method: POST
+    user: "{{ user_name }}"
+    password: "{{ password }}"
+    status_code: [202]
+    force_basic_auth: true
+    validate_certs: false
+  register: tower_project_update
+
+- name: Wait for Update to Complete
+  uri:
+    url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/project_updates/{{ tower_project_update.json.id }}/"
+    method: GET
+    user: "{{ user_name }}"
+    password: "{{ password }}"
+    status_code: [200]
+    force_basic_auth: true
+    validate_certs: false
+  register: tower_project_update_status
+  until: tower_project_update_status.json.status == 'successful'
+  retries: 12
+  delay: 5
