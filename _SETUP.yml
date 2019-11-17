@@ -74,6 +74,27 @@
         dest: /root/ansible_advance_homework
         repo: https://github.com/coreywan/ansible_advance_homework.git
 
+    - name: Create bin folder
+      file:
+        path: /root/bin
+        state: directory
+    
+    - name: Download needed scripts
+      get_url:
+        url: "{{ url.url }}"
+        dest: "{{ url.dest }}"
+        mode: '0700'
+      loop:
+        - url: http://www.opentlc.com/download/ansible_bootcamp/scripts/common.sh
+          dest: /root/bin/common.sh
+        - url: http://www.opentlc.com/download/ansible_bootcamp/scripts/jq-linux64
+          dest: /root/bin/jq
+        - url: http://www.opentlc.com/download/ansible_bootcamp/scripts/order_svc.sh
+          dest: /root/bin/order_svc.sh
+      loop_control:
+        label: "{{ url.url }}"
+        loop_var: url
+
 - name: Configure OSP Bastion Host
   hosts: bastion_osp
   gather_facts: false
