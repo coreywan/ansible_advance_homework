@@ -49,6 +49,7 @@
     job_type: "{{ jt.job_type | default(omit) }}"
     vault_credential: "{{ jt.vault_credential | default(omit) }}"
     extra_vars_path: "{{ jt.extra_vars_path | default(omit) }}"
+    inventory: "{{ jt.inventory | default(omit) }}"
   loop_control:
     label: "{{ jt.name }}"
     loop_var: jt
