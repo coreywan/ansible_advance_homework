@@ -6,12 +6,18 @@
     - name: osp-facts
       when: os_deploy | default(false) == True
 
+- name: Deploy base configuration
+  hosts: frontend:application:database
+  gather_facts: false
+  become: true
+  roles:
+    - { name: base-config, tags: base-config }
+
 - name: setup load-balancer tier
   hosts: frontend
   gather_facts: false
   become: true
   roles:
-    - { name: base-config, tags: base-config }
     - { name: lb-tier, tags: [lbs, haproxy] }
 
 - name: setup app tier
@@ -19,15 +25,11 @@
   become: true
   gather_facts: false
   roles:
-    - {name: base-config, tags: base-config}
     - {name: app-tier, tags: [apps, tomcat]}
 
 - name: setup database tier
   become: true
   hosts: database
   gather_facts: false
-  tasks:
-    - ping:
   roles:
-    - {name: base-config, tags: base-config}
     - {name: db-tier, tags: [dbs, postgres]}
