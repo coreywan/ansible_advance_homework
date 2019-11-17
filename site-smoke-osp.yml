@@ -20,5 +20,3 @@
       assert:
         that: "'Ansible has done its job' in webpage.content"
         msg: "'Ansible has done its job' was not found in the frontend check"
-      tags:
-        - osp.smoke
