@@ -1,0 +1,15 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Execute Ansible Playbook
+      uses: saubermacherag/ansible-playbook-docker-action@v1.0
+      with:
+        playbookName: 'cd-update-tower.yml'
+        verbosity: "vv"
