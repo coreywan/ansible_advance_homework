@@ -95,6 +95,11 @@
   loop_control:
     loop_var: inv_src
     label: "{{ inv_src.0.name }}:{{ inv_src.1.name }}"
+  register: inventory_sources
+
+- debug: var=inventory_sources
+
+- meta: end_play
 
 - name: Create Group in static inventory
   tower_group:
