@@ -1,0 +1,13 @@
+---
+- name: Build Servers
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Start Servers
+      include_role: 
+        name: osp-servers
+        tasks_from: server_action
+      when: os_deploy | default(false) == True
+      vars:
+        os_action: start
+

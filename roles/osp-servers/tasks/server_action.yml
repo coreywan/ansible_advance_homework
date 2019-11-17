@@ -1,0 +1,6 @@
+---
+- name: Perform Action On Server
+  os_server:
+    action: "{{ os_action }}"
+    server: "{{ os_name }}"
+  delegate_to: localhost
