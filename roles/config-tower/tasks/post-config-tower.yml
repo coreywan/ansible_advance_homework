@@ -97,9 +97,19 @@
     label: "{{ inv_src.0.name }}:{{ inv_src.1.name }}"
   register: inventory_sources
 
-- debug: var=inventory_sources
-
-- meta: end_play
+- name: Update Each Inventory Sources
+  uri:
+    url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/inventory_sources/{{ inv_src.id }}/update/"
+    method: POST
+    user: "{{ user_name }}"
+    password: "{{ password }}"
+    status_code: [202]
+    force_basic_auth: true
+    validate_certs: false
+  loop: "{{ inventory_sources.results }}"
+  loop_control:
+    loop_var: inv_src
+    label: "{{ inv_src.inv_src.inventory_source }}:{{ inv_src.id }}"
 
 - name: Create Group in static inventory
   tower_group:
