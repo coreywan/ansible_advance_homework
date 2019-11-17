@@ -43,7 +43,7 @@
 - name: Remove comments from openstack.pem file
   replace: 
     path: /root/.ssh/openstack.pem
-    regexp: '^#'
+    regexp: '^#.*$'
     backup: true
 
 - name: Machine Credential to connect to workstation using openstack.pub
