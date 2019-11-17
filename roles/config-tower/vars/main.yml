@@ -110,7 +110,7 @@ tower_job_templates:
     instance_group: "{{ instance_group_name }}"
   - name: "{{job_template_smoke_osp}}"
     job_type: run
-    inventory: "{{ static_inventory_name }}"
+    inventory: qa
     project: "{{ proj_name }}"
     playbook: "{{ osp_smoke_playbook }}"
     credential: "{{ssh_cred_name}}"
