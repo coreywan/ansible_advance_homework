@@ -40,6 +40,12 @@
       retries: 12
       delay: 5
 
+- name: Remove comments from openstack.pem file
+  replace: 
+    path: /root/.ssh/openstack.pem
+    regexp: '^#'
+    backup: true
+
 - name: Machine Credential to connect to workstation using openstack.pub
   tower_credential:
     name: Connect_to_workstation
