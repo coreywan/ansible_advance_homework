@@ -9,9 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Install Ansible
+      run: |
+        pip install ansible
     - name: Run a multi-line script
       run: |
         ls -al
-
+        ansible-playbook cd-update-tower.yml
