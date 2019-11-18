@@ -26,3 +26,14 @@
     ```sh
     ssh $(cat _OPENTLC_USER)@workstation-$(cat _GUID_OSP).rhpds.opentlc.com
     ```
+* SSH Into 3-Tier Bastion Host
+    ```sh
+    ssh $(cat _OPENTLC_USER)@bastion.$(cat _GUID_3TIER).example.opentlc.com
+    ```
+
+## Overall changes
+
+* I updated the tower role to include more options and be more idempotent. Where possible I removed the tower-cli shell commands for the native ansible modules.
+* To be a little more secure, I opted not to utlize my existing private/public key in the environment. Instead I generated a new key that is only used in this environment.
+* To help accelerate the setup of the different parts of the environment, I created a `_SETUP.yml` playbook. It generates the ssh keys and copies them around.   See the `Setup Lab Environment` above for more information.
+* I had a problem where the Openstack VM's would power off after a while. I wrote a quick playbook to start the osp servers. (`site-ops-startup.yml`)
