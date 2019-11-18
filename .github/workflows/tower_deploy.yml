@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Execute Ansible Playbook
-      uses: saubermacherag/ansible-playbook-docker-action@v1.0
+      uses: saubermacherag/ansible-playbook-docker-action@v1.1
       with:
-        playbookName: '/github/workspace/cd-update-tower.yml'
+        playbookName: 'cd-update-tower.yml'
         verbosity: "vv"
