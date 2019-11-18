@@ -1,7 +1,7 @@
 ---
 - name: Get Project ID Info
   uri: 
-    url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/projects?name={{ proj_name }}"
+    url: "https://tower1.{{ tower_GUID }}.example.opentlc.com/api/v2/projects?name={{ proj_name | urlencode }}"
     method: GET
     user: "{{ user_name }}"
     password: "{{ password }}"
