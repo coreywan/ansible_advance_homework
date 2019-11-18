@@ -1,15 +1,14 @@
-name: CI
-
+name: basic
 on: [push]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
+    - uses: actions/checkout@v1
+    - name: Install Ansible
+      run: |
+        pip install wheel ansible
     - name: Execute Ansible Playbook
-      uses: saubermacherag/ansible-playbook-docker-action@v1.1
-      with:
-        playbookName: 'cd-update-tower.yml'
-        verbosity: "vv"
+      run: |
+        ls -al
+        ansible-playbook cd-update-tower.yml
