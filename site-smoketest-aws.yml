@@ -3,4 +3,14 @@
   gather_facts: false
   tasks:
   - name: Use Uri module for wrting smoke test.
+    uri:
+      url: "http://{{ ansible_host }}"
+      method: GET
+      return_content: true
+    register: webpage
+    delegate_to: localhost
+
   - name: Fail if 'Ansible has done its job' is not in the page content
+    assert:
+      that: "'Ansible has done its job' in webpage.content"
+      msg: "'Ansible has done its job' was not found in the frontend check"
