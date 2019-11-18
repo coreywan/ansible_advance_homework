@@ -8,12 +8,21 @@
         name: "bastion.{{ lookup('file','_GUID_TOWER') }}.example.opentlc.com"
         groups: bastion_tower
       changed_when: false
+      tags: [always]
   
     - name: Add OSP Host
       add_host:
         name: "workstation-{{ lookup('file','_GUID_OSP') }}.rhpds.opentlc.com"
         groups: bastion_osp
       changed_when: false
+      tags: [always]
+
+    - name: Add 3Tier Host
+      add_host:
+        name: "bastion.{{ lookup('file','_GUID_3TIER') }}.example.opentlc.com"
+        groups: bastion_3tier
+      changed_when: false
+      tags: [always]
 
 - name: Configure HW Bastion Host
   hosts: bastion_tower
@@ -27,7 +36,8 @@
       file:
         path: /root/bin
         state: directory
-    
+      tags: [profile]
+
     - name: Download needed scripts
       get_url:
         url: "{{ url.url }}"
@@ -43,6 +53,7 @@
       loop_control:
         label: "{{ url.url }}"
         loop_var: url
+      tags: [profile]
 
     - name: Setup BashRC Exports
       lineinfile:
@@ -76,41 +87,48 @@
           value: https://labs.opentlc.com
         - key: PATH
           value: "~/bin:$PATH"
+      tags: [profile]
 
     - name: Install Ansible
       package:
         name: ansible
         state: present
+      tags: [packages]
 
     - name: Install Screen
       package:
         name: screen
         state: present
+      tags: [packages]
 
     - name: Generate SSH Key
       openssh_keypair:
         path: "/root/.ssh/mykey_id_rsa"
         mode: '0400'
+      tags: [ssh]
 
     - name: Fetch File to place it on 
       fetch:
         src: "/root/.ssh/mykey_id_rsa.pub"
         dest: "{{ playbook_dir }}/id_rsa.pub"
         flat: true
+      tags: [ssh]
 
     - name: Clone Forked Repo
       git:
         dest: /root/ansible_advance_homework
         repo: https://github.com/coreywan/ansible_advance_homework.git
+      tags: [profile]
 
-- name: Configure OSP Bastion Host
-  hosts: bastion_osp
+- name: Configure Other Bastion Hosts
+  hosts: bastion_osp:bastion_3tier
   gather_facts: false
   vars:
     ansible_user: "{{ lookup('file','_OPENTLC_USER') }}"
   tasks:
-    - name: Copy public key to OSP Bastion Host
+    - name: Copy public key to Bastion Host
       authorized_key:
         user: "{{ ansible_user }}"
         state: present
         key: "{{ lookup('file', (playbook_dir + '/id_rsa.pub')) }}"
+      tags: [ssh]
