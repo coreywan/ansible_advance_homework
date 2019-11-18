@@ -124,7 +124,7 @@ tower_job_templates:
     extra_vars_path: "/tmp/aws_jq_vars.yml"
   - name: "{{job_template_aws_ssh_keys}}"
     job_type: run
-    inventory: "{{ static_inventory_name }}"
+    inventory: "{{ ec2_dynamic_inventory }}"
     project: "{{ proj_name }}"
     playbook: "{{ aws_ssh_playbook }}"
     credential: "{{opentlc_cred_name}}"
@@ -147,3 +147,9 @@ tower_job_templates:
     project: "{{ proj_name }}"
     playbook: "{{ aws_smoke_app_playbook }}"
     vault_credential: yum-repo-cred
+  - name: Start QA Env
+    job_type: run
+    inventory: qa
+    project: "{{ proj_name }}"
+    playbook: site-osp-startup.yml
+    credential: "{{ ssh_cred_name }}"
